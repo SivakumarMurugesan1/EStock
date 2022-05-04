@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.estock.estockmarket.entity.Company;
 import com.estock.estockmarket.entity.StockExchange;
+import com.estock.estockmarket.exception.CompanyNotCreatedException;
 import com.estock.estockmarket.exception.CompanyNotFoundException;
 import com.estock.estockmarket.service.CompanyService;
 
@@ -23,7 +24,7 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
 @RestController
-@RequestMapping(value = "/api/v1.0/market")
+@RequestMapping(value = "/api/v1.0/market/company")
 public class CompanyController {
 
 	@Autowired
@@ -42,40 +43,32 @@ public class CompanyController {
 	 * 
 	 * @ApiResponse(code=500, message="Database Interaction Error"), })
 	 */
-	@PostMapping(value = "/company/register")
-	public ResponseEntity<String> registerNewCompany(@RequestBody Company newCompany) {
+	@PostMapping(value = "/register")
+	public ResponseEntity<String> registerNewCompany(@RequestBody Company newCompany) throws CompanyNotCreatedException {
 		String registercompany = null;
-		try {
+		
 //			ValidateCompany validatecompany = new ValidateCompany();
 //			validatecompany.companyValidation(newCompany);
-			registercompany = companyservice.saveOrUpdate(newCompany);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return new ResponseEntity<String>(registercompany, HttpStatus.OK);
+			registercompany = companyservice.saveOrUpdate(newCompany);			
+			return new ResponseEntity<String>(registercompany, HttpStatus.OK);
 	}
 
 	
-	  @GetMapping(value = "/company/info/{companyCode}") 
+	  @GetMapping(value = "/info/{companyCode}") 
 	  public Company getCompanyByCode(@PathVariable("companyCode") String companyCode) throws CompanyNotFoundException{ 
-		  return companyservice.getCompanyDetailsByCode(companyCode);
-		  }
+		    return companyservice.getCompanyDetailsByCode(companyCode);
+	  }
 	 
-	  @GetMapping(value = "/company/getall") 
+	  @GetMapping(value = "/getall") 
 	  public List<Company> getAllCompanies(){ 
 		  return companyservice.getAllCompanyDetails();
 		  }
 	  
-	  @DeleteMapping(value = "/company/delete/{companyCode}") 
+	  @DeleteMapping(value = "/delete/{companyCode}") 
 	  public ResponseEntity<String> deleteCompany(@PathVariable("companyCode") String companyCode) throws CompanyNotFoundException {
 		  return new ResponseEntity<String>(companyservice.deleteCompanyByCode(companyCode), HttpStatus.OK);
 	  }
 	  
-//	  @PostMapping(value="/stock/add/{companyCode}")
-//		public ResponseEntity<String> addExistingCompanyNewStock(@PathVariable String companyCode,@RequestBody List<StockExchange> stockExchanges){
-//			String newStockAddedStatus = companyservice.addExistingCompanyNewStock(companyCode,stockExchanges);
-//			return new ResponseEntity<>(newStockAddedStatus,HttpStatus.OK);
-//		}
 	  
 	  @GetMapping(value = "/stock/get/{companyCode}/{startdate}/{enddate}")
 		public List<List<StockExchange>> getCompanyStockExchangeByStockDateRange(@PathVariable("companyCode")String companyCode,@PathVariable("startdate")String startdate,@PathVariable("enddate")String enddate) throws Exception{

@@ -1,8 +1,5 @@
 package com.estock.estockmarket.entity;
 
-import java.util.List;
-
-
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,23 +7,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection="Company")
 public class Company {
 	
-//	@Id
-//	public int id;
 	@Indexed(unique = true)
 	private String companyCode;
 	private String companyName;
 	private String companyCeo;
 	private Double companyTurnover;
 	private String companyWebsite;
-	private List<StockExchange> stockExchange;
-		
+	private String stockExchange;
 	
-//	public int getId() {
-//		return id;
-//	}
-//	public void setId(int id) {
-//		this.id = id;
-//	}
+	public String getStockExchange() {
+		return stockExchange;
+	}
+	public void setStockExchange(String stockExchange) {
+		this.stockExchange = stockExchange;
+	}
 	public String getCompanyCode() {
 		return companyCode;
 	}
@@ -57,13 +51,6 @@ public class Company {
 	public void setCompanyWebsite(String companyWebsite) {
 		this.companyWebsite = companyWebsite;
 	}
-	public List<StockExchange> getStockExchange() {
-		return stockExchange;
-	}
-	public void setStockExchange(List<StockExchange> stockExchange) {
-		this.stockExchange = stockExchange;
-	}
-	
-	
-	
+
+
 }

@@ -25,10 +25,11 @@ public class CompanyService {
 	
 	public String saveOrUpdate(Company newCompany) throws CompanyNotCreatedException{
 		try {
-			companyrepository.save(newCompany);
+			if(newCompany.getCompanyTurnover()<10)
+				throw new Exception();
+			 companyrepository.save(newCompany);
 						
 		} catch(Exception exception) {
-			System.out.println("Unique constraint");
 			throw new CompanyNotCreatedException(exception.getMessage());
 			}
 		return null;
@@ -36,9 +37,14 @@ public class CompanyService {
 	
 	
 	  public Company getCompanyDetailsByCode(String companyCode) throws CompanyNotFoundException{ 
+		  try {
 		   if(companyrepository.findByCompanyCode(companyCode)==null)			   
-			   throw new CompanyNotFoundException("Company Not Found");
+			   throw new Exception();
 		   return companyrepository.findByCompanyCode(companyCode);
+		  }catch(Exception e) {
+			  throw new CompanyNotFoundException(e.getMessage());
+		  }
+		   
 		  
 	  }
 	  
@@ -58,10 +64,6 @@ public class CompanyService {
 		  return null;
 		  }
 	  
-//	  public String addExistingCompanyNewStock(String companyCode,List<StockExchange> stockExchange) {
-//		    companyrepository.save(stockExchange);
-//		    return null;
-//	  }
 	  
 	  public List<List<StockExchange>> getStockseByDateRange(String companyCode,String startdate,String enddate) throws Exception{
 		  		  return companyrepository.findByCompanyCodeByStockAddedTmBetween(convertStringDateToDateTime(startdate),convertStringDateToDateTime(enddate));
