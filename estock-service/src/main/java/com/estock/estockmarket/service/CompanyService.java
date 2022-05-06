@@ -1,15 +1,12 @@
 package com.estock.estockmarket.service;
 
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.estock.estockmarket.entity.Company;
-import com.estock.estockmarket.entity.StockExchange;
 import com.estock.estockmarket.exception.CompanyNotCreatedException;
 import com.estock.estockmarket.exception.CompanyNotFoundException;
 import com.estock.estockmarket.repository.CompanyRepository;
@@ -45,7 +42,7 @@ public class CompanyService {
 			  throw new CompanyNotFoundException(e.getMessage());
 		  }
 		   
-		  
+
 	  }
 	  
 	  public List<Company> getAllCompanyDetails(){
@@ -65,20 +62,6 @@ public class CompanyService {
 		  }
 	  
 	  
-	  public List<List<StockExchange>> getStockseByDateRange(String companyCode,String startdate,String enddate) throws Exception{
-		  		  return companyrepository.findByCompanyCodeByStockAddedTmBetween(convertStringDateToDateTime(startdate),convertStringDateToDateTime(enddate));
-	  }
-	  
-	  private LocalDateTime convertStringDateToDateTime(String date) throws Exception {
-			try {                                                                  
-	            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-				String newdate=date.concat("T00:00:00.000UTC");
-	            LocalDateTime localDateTime = LocalDateTime.parse(newdate,dateTimeFormatter);
-	            		//, dateTimeFormatter);
-	            return localDateTime;
-	        } catch (Exception exception) {
-	            throw new Exception(exception.getMessage());
-	        }
-		}
+	 
 	 
 }

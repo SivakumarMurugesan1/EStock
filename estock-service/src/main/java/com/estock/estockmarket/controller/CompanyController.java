@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.estock.estockmarket.entity.Company;
-import com.estock.estockmarket.entity.StockExchange;
 import com.estock.estockmarket.exception.CompanyNotCreatedException;
 import com.estock.estockmarket.exception.CompanyNotFoundException;
 import com.estock.estockmarket.service.CompanyService;
@@ -70,10 +69,7 @@ public class CompanyController {
 	  }
 	  
 	  
-	  @GetMapping(value = "/stock/get/{companyCode}/{startdate}/{enddate}")
-		public List<List<StockExchange>> getCompanyStockExchangeByStockDateRange(@PathVariable("companyCode")String companyCode,@PathVariable("startdate")String startdate,@PathVariable("enddate")String enddate) throws Exception{
-			return companyservice.getStockseByDateRange(companyCode,startdate,enddate);
-		}
+	 
 	  
 
 }
