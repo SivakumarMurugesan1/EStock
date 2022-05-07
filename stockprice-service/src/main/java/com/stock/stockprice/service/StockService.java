@@ -26,8 +26,7 @@ public class StockService {
 	
 	@Autowired
 	MongoTemplate mongotemplate;
-//   	@Autowired
-//	StockDetails stockdetails;
+
 	
 	  public String addCompanyNewStock(String companyCode,Stock stock) {
 	    stock.setCompanyCode(companyCode);

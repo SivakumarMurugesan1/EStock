@@ -18,10 +18,6 @@ import com.estock.estockmarket.exception.CompanyNotCreatedException;
 import com.estock.estockmarket.exception.CompanyNotFoundException;
 import com.estock.estockmarket.service.CompanyService;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ApiResponse;
-
 @RestController
 @RequestMapping(value = "/api/v1.0/market/company")
 public class CompanyController {
@@ -30,25 +26,13 @@ public class CompanyController {
 	CompanyService companyservice;
 
 
-	/*
-	 * @ApiOperation(value="Register new company",tags={"Register new company"},
-	 * response=Long.class)
-	 * 
-	 * @ApiResponses(value= {@ApiResponse(code=200, message="Success"),
-	 * 
-	 * @ApiResponse(code=404, message="No Data Found"),
-	 * 
-	 * @ApiResponse(code=500, message="System Exception"),
-	 * 
-	 * @ApiResponse(code=500, message="Database Interaction Error"), })
-	 */
 	@PostMapping(value = "/register")
 	public ResponseEntity<String> registerNewCompany(@RequestBody Company newCompany) throws CompanyNotCreatedException {
 		String registercompany = null;
 		
 //			ValidateCompany validatecompany = new ValidateCompany();
 //			validatecompany.companyValidation(newCompany);
-			registercompany = companyservice.saveOrUpdate(newCompany);			
+			registercompany = companyservice.registerCompany(newCompany);			
 			return new ResponseEntity<String>(registercompany, HttpStatus.OK);
 	}
 
