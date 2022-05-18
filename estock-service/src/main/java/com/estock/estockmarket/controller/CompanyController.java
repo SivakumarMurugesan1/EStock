@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.estock.estockmarket.exception.CompanyNotCreatedException;
 import com.estock.estockmarket.exception.CompanyNotFoundException;
 import com.estock.estockmarket.service.CompanyService;
 
+
 @RestController
 @RequestMapping(value = "/api/v1.0/market/company")
 public class CompanyController {
@@ -25,15 +27,16 @@ public class CompanyController {
 	@Autowired
 	CompanyService companyservice;
 
+	@Autowired 
+	KafkaTemplate<String,Company> kafkaTemplate;
+	
+	private static final String TOPIC_NAME="kafka_topic_name";
 
 	@PostMapping(value = "/register")
 	public ResponseEntity<String> registerNewCompany(@RequestBody Company newCompany) throws CompanyNotCreatedException {
-		String registercompany = null;
-		
-//			ValidateCompany validatecompany = new ValidateCompany();
-//			validatecompany.companyValidation(newCompany);
-			registercompany = companyservice.registerCompany(newCompany);			
-			return new ResponseEntity<String>(registercompany, HttpStatus.OK);
+			companyservice.registerCompany(newCompany);	
+			kafkaTemplate.send(TOPIC_NAME, newCompany);
+			return new ResponseEntity<String>("Company registered!", HttpStatus.OK);
 	}
 
 	
@@ -52,7 +55,7 @@ public class CompanyController {
 		  return new ResponseEntity<String>(companyservice.deleteCompanyByCode(companyCode), HttpStatus.OK);
 	  }
 	  
-	  
+	  	  
 	 
 	  
 

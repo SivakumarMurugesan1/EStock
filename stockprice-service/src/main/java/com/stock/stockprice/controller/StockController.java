@@ -19,15 +19,16 @@ public class StockController {
 
 	@Autowired
 	StockService stockservice;
-	
-	 @PostMapping(value="/add/{companyCode}")
-		public ResponseEntity<String> addCompanyNewStock(@PathVariable String companyCode,@RequestBody  Stock newStock){
-			String newStockAddedStatus = stockservice.addCompanyNewStock(companyCode,newStock);
-			return new ResponseEntity<>(newStockAddedStatus,HttpStatus.OK);
-		}
-	 
-	 @GetMapping(value = "/get/{companyCode}/{startdate}/{enddate}")
-		public StockDetails getCompanyStockByDateRange(@PathVariable("companyCode")String companyCode,@PathVariable("startdate")String startdate,@PathVariable("enddate")String enddate) throws Exception{
-			return stockservice.getStocksByDateRange(companyCode,startdate,enddate);
-		}
+
+	@PostMapping(value = "/add/{companyCode}")
+	public ResponseEntity<String> addCompanyNewStock(@PathVariable String companyCode, @RequestBody Stock newStock) {
+		stockservice.addCompanyNewStock(companyCode, newStock);
+		return new ResponseEntity<>("Stock Added!", HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/get/{companyCode}/{startdate}/{enddate}")
+	public StockDetails getCompanyStockByDateRange(@PathVariable("companyCode") String companyCode,
+			@PathVariable("startdate") String startdate, @PathVariable("enddate") String enddate) throws Exception {
+		return stockservice.getStocksByDateRange(companyCode, startdate, enddate);
+	}
 }

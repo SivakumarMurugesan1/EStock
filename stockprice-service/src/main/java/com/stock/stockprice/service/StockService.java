@@ -30,7 +30,7 @@ public class StockService {
 	
 	  public String addCompanyNewStock(String companyCode,Stock stock) {
 	    stock.setCompanyCode(companyCode);
-	  //stock.setAddedTime(LocalDateTime.now());	      
+	    stock.setAddedTime(LocalDateTime.now());	      
          stockrepository.save(stock);
          return null;
 	  }
@@ -38,16 +38,14 @@ public class StockService {
 	  public StockDetails getStocksByDateRange(String companyCode,String startdate,String enddate) throws Exception{
 			StockDetails stockdetails = new StockDetails();
 			Criteria criteria = Criteria.where("addedTime").gte(convertStringDateToDateTime(startdate))
-					.andOperator(Criteria.where("addedTime").lt(convertStringDateToDateTime(enddate)));
+					.andOperator(Criteria.where("addedTime").lte(convertStringDateToDateTime(enddate)));
 
 			if (StringUtils.isNotEmpty(companyCode)) {
 				criteria = criteria.and("companyCode").is(companyCode);
 			}
 			Query query = new Query(criteria);
 			List<Stock> stockList = mongotemplate.find(query, Stock.class);
-			if (stockList.isEmpty())
-				throw new NoSuchElementException();
-			else {
+			if (!stockList.isEmpty()){				
 				Optional<Stock> minStockPrice = stockList.stream().min(Comparator.comparing(Stock::getPrice));
 				Optional<Stock> maxStockPrice = stockList.stream().max(Comparator.comparing(Stock::getPrice));
 				double avg = stockList.stream().mapToDouble(stock -> stock.getPrice().doubleValue()).average()
@@ -59,7 +57,7 @@ public class StockService {
 				if (maxStockPrice.isPresent()) {
 					stockdetails.setMaxPrice(maxStockPrice.get().getPrice());
 				}
-			}
+	  }
 			stockdetails.setStockData(stockList);
 			return stockdetails;
     }

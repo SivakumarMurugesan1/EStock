@@ -1,5 +1,6 @@
 package com.estock.estockmarket.entity;
 
+
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,5 +21,6 @@ public class Company {
 	private Double companyTurnover;
 	private String companyWebsite;
 	private String stockExchange;
+	
 	
 }

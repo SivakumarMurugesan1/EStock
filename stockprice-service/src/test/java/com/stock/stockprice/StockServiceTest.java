@@ -38,7 +38,7 @@ class StockServiceTest {
 		stock.setCompanyCode("Comp005");
 		stock.setPrice(500.0);
 		stock.setAddedTime(LocalDateTime.now());
-		
+		stockservice.addCompanyNewStock(stock.getCompanyCode(),stock);
 		verify(stockrepository, times(1)).save(stock);
 	}
 	

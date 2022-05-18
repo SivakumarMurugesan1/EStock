@@ -17,18 +17,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
 	@Bean
-    public Docket api() { 
-        return new Docket(DocumentationType.SWAGGER_2)  
-          .select()                                  
-          .apis(RequestHandlerSelectors.basePackage("com.stock.stockprice"))              
-          .paths(PathSelectors.any())                          
-          .build().apiInfo(apiInfo());   
+	public Docket api() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.stock.stockprice")).paths(PathSelectors.any()).build()
+				.apiInfo(apiInfo());
 	}
-        private ApiInfo apiInfo() {
-        	return new ApiInfoBuilder().title("StockPrice Service API").description("EStock")
-        			.version("1.0").license("Apache 2.0").licenseUrl("https://www.apache.ord/licenses/LICENSE-2.0\"")
-        			.contact(new Contact("StockPrice","www.xyz.com","siva@gmail.com")).build();
-        }
-        
-    
+
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder().title("StockPrice Service API").description("EStock").version("1.0")
+				.license("Apache 2.0").licenseUrl("https://www.apache.ord/licenses/LICENSE-2.0\"")
+				.contact(new Contact("StockPrice", "www.xyz.com", "siva@gmail.com")).build();
+	}
+
 }
