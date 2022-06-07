@@ -1,3 +1,4 @@
+
 package com.stock.stockprice.entity;
 
 import java.io.Serializable;

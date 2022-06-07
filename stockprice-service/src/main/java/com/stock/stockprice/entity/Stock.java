@@ -15,12 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties({"companyCode"})
 @Document(collection="Stock")
+
 public class Stock {
 		
 	@ApiModelProperty(hidden=true)
 	private String companyCode;
 	private Double price;
 	private LocalDateTime addedTime;
+	
 	
 	
 }

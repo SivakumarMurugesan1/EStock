@@ -3,9 +3,9 @@ package com.stock.stockprice.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class StockService {
 	
 	  public String addCompanyNewStock(String companyCode,Stock stock) {
 	    stock.setCompanyCode(companyCode);
-	    stock.setAddedTime(LocalDateTime.now());	      
-         stockrepository.save(stock);
+	    stock.setAddedTime(LocalDateTime.now());
+	    stockrepository.save(stock);
          return null;
 	  }
 	  
-	  public StockDetails getStocksByDateRange(String companyCode,String startdate,String enddate) throws Exception{
+	  public List<StockDetails> getStocksByDateRange(String companyCode,String startdate,String enddate) throws Exception{
 			StockDetails stockdetails = new StockDetails();
 			Criteria criteria = Criteria.where("addedTime").gte(convertStringDateToDateTime(startdate))
 					.andOperator(Criteria.where("addedTime").lte(convertStringDateToDateTime(enddate)));
@@ -57,9 +57,11 @@ public class StockService {
 				if (maxStockPrice.isPresent()) {
 					stockdetails.setMaxPrice(maxStockPrice.get().getPrice());
 				}
+	  }else {
+		  return List.of();
 	  }
 			stockdetails.setStockData(stockList);
-			return stockdetails;
+			return Arrays.asList(stockdetails);
     }
 
 	  private LocalDateTime convertStringDateToDateTime(String date) throws Exception {

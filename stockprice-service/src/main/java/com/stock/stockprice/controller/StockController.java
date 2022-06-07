@@ -1,8 +1,11 @@
 package com.stock.stockprice.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,7 @@ import com.stock.stockprice.service.StockService;
 
 @RestController
 @RequestMapping(value = "/api/v1.0/market/stock")
+@CrossOrigin("*")
 public class StockController {
 
 	@Autowired
@@ -23,11 +27,11 @@ public class StockController {
 	@PostMapping(value = "/add/{companyCode}")
 	public ResponseEntity<String> addCompanyNewStock(@PathVariable String companyCode, @RequestBody Stock newStock) {
 		stockservice.addCompanyNewStock(companyCode, newStock);
-		return new ResponseEntity<>("Stock Added!", HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/get/{companyCode}/{startdate}/{enddate}")
-	public StockDetails getCompanyStockByDateRange(@PathVariable("companyCode") String companyCode,
+	public List<StockDetails> getCompanyStockByDateRange(@PathVariable("companyCode") String companyCode,
 			@PathVariable("startdate") String startdate, @PathVariable("enddate") String enddate) throws Exception {
 		return stockservice.getStocksByDateRange(companyCode, startdate, enddate);
 	}
